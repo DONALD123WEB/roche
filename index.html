@@ -1,0 +1,343 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>BODMAS Calculator</title>
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-gray-900 min-h-screen flex items-center justify-center p-4">
+
+    <!-- Calculator -->
+    <div class="w-full max-w-sm bg-gray-800 rounded-2xl shadow-2xl p-5">
+
+        <!-- Title -->
+        <h1 class="text-white text-2xl font-bold text-center mb-5">
+            BODMAS Calculator
+        </h1>
+
+
+        <!-- Display -->
+        <div class="mb-5">
+
+            <input
+                id="screen"
+                type="text"
+                readonly
+                placeholder="0"
+                class="w-full bg-gray-950 text-white text-right text-3xl
+                       p-4 rounded-xl outline-none border border-gray-700"
+            >
+
+        </div>
+
+
+        <!-- Calculator Buttons -->
+        <div class="grid grid-cols-4 gap-3">
+
+            <!-- Row 1 -->
+
+            <button
+                onclick="clearDisplay()"
+                class="bg-red-600 hover:bg-red-700 text-white text-xl
+                       font-bold p-4 rounded-xl transition">
+                C
+            </button>
+
+            <button
+                onclick="deleteLast()"
+                class="bg-gray-600 hover:bg-gray-700 text-white text-xl
+                       font-bold p-4 rounded-xl transition">
+                DEL
+            </button>
+
+            <button
+                onclick="appendValue('(')"
+                class="bg-gray-600 hover:bg-gray-700 text-white text-xl
+                       font-bold p-4 rounded-xl transition">
+                (
+            </button>
+
+            <button
+                onclick="appendValue(')')"
+                class="bg-gray-600 hover:bg-gray-700 text-white text-xl
+                       font-bold p-4 rounded-xl transition">
+                )
+            </button>
+
+
+            <!-- Row 2 -->
+
+            <button
+                onclick="appendValue('7')"
+                class="bg-gray-700 hover:bg-gray-600 text-white text-xl
+                       font-bold p-4 rounded-xl transition">
+                7
+            </button>
+
+            <button
+                onclick="appendValue('8')"
+                class="bg-gray-700 hover:bg-gray-600 text-white text-xl
+                       font-bold p-4 rounded-xl transition">
+                8
+            </button>
+
+            <button
+                onclick="appendValue('9')"
+                class="bg-gray-700 hover:bg-gray-600 text-white text-xl
+                       font-bold p-4 rounded-xl transition">
+                9
+            </button>
+
+            <button
+                onclick="appendValue('/')"
+                class="bg-blue-600 hover:bg-blue-700 text-white text-xl
+                       font-bold p-4 rounded-xl transition">
+                ÷
+            </button>
+
+
+            <!-- Row 3 -->
+
+            <button
+                onclick="appendValue('4')"
+                class="bg-gray-700 hover:bg-gray-600 text-white text-xl
+                       font-bold p-4 rounded-xl transition">
+                4
+            </button>
+
+            <button
+                onclick="appendValue('5')"
+                class="bg-gray-700 hover:bg-gray-600 text-white text-xl
+                       font-bold p-4 rounded-xl transition">
+                5
+            </button>
+
+            <button
+                onclick="appendValue('6')"
+                class="bg-gray-700 hover:bg-gray-600 text-white text-xl
+                       font-bold p-4 rounded-xl transition">
+                6
+            </button>
+
+            <button
+                onclick="appendValue('*')"
+                class="bg-blue-600 hover:bg-blue-700 text-white text-xl
+                       font-bold p-4 rounded-xl transition">
+                ×
+            </button>
+
+
+            <!-- Row 4 -->
+
+            <button
+                onclick="appendValue('1')"
+                class="bg-gray-700 hover:bg-gray-600 text-white text-xl
+                       font-bold p-4 rounded-xl transition">
+                1
+            </button>
+
+            <button
+                onclick="appendValue('2')"
+                class="bg-gray-700 hover:bg-gray-600 text-white text-xl
+                       font-bold p-4 rounded-xl transition">
+                2
+            </button>
+
+            <button
+                onclick="appendValue('3')"
+                class="bg-gray-700 hover:bg-gray-600 text-white text-xl
+                       font-bold p-4 rounded-xl transition">
+                3
+            </button>
+
+            <button
+                onclick="appendValue('-')"
+                class="bg-blue-600 hover:bg-blue-700 text-white text-xl
+                       font-bold p-4 rounded-xl transition">
+                −
+            </button>
+
+
+            <!-- Row 5 -->
+
+            <button
+                onclick="appendValue('0')"
+                class="bg-gray-700 hover:bg-gray-600 text-white text-xl
+                       font-bold p-4 rounded-xl transition">
+                0
+            </button>
+
+            <button
+                onclick="appendValue('.')"
+                class="bg-gray-700 hover:bg-gray-600 text-white text-xl
+                       font-bold p-4 rounded-xl transition">
+                .
+            </button>
+
+            <button
+                onclick="appendValue('%')"
+                class="bg-purple-600 hover:bg-purple-700 text-white text-xl
+                       font-bold p-4 rounded-xl transition">
+                %
+            </button>
+
+            <button
+                onclick="appendValue('+')"
+                class="bg-blue-600 hover:bg-blue-700 text-white text-xl
+                       font-bold p-4 rounded-xl transition">
+                +
+            </button>
+
+
+            <!-- Row 6 -->
+
+            <button
+                onclick="appendValue('^')"
+                class="bg-purple-600 hover:bg-purple-700 text-white text-xl
+                       font-bold p-4 rounded-xl transition">
+                xʸ
+            </button>
+
+            <button
+                onclick="calculate()"
+                class="col-span-3 bg-green-600 hover:bg-green-700
+                       text-white text-xl font-bold p-4 rounded-xl transition">
+                =
+            </button>
+
+        </div>
+
+    </div>
+
+
+    <!-- JavaScript -->
+    <script>
+
+        // Get calculator screen
+        const screen = document.getElementById("screen");
+
+
+        // Add value to the calculator display
+        function appendValue(value) {
+
+            screen.value += value;
+
+        }
+
+
+        // Clear everything
+        function clearDisplay() {
+
+            screen.value = "";
+
+        }
+
+
+        // Delete the last character
+        function deleteLast() {
+
+            screen.value = screen.value.slice(0, -1);
+
+        }
+
+
+        // Calculate the expression
+        function calculate() {
+
+            try {
+
+                let expression = screen.value;
+
+                // Make sure the expression is not empty
+                if (expression === "") {
+                    return;
+                }
+
+
+                /*
+                    Convert ^ to JavaScript exponent operator **
+
+                    Example:
+
+                    2^3
+
+                    becomes:
+
+                    2**3
+
+                    which means:
+
+                    2³ = 8
+                */
+                expression = expression.replace(/\^/g, "**");
+
+
+                /*
+                    Only allow calculator characters.
+
+                    This prevents letters and other unwanted
+                    characters from being executed.
+                */
+                if (!/^[0-9+\-*/%.() ]+$/.test(expression)) {
+
+                    throw new Error("Invalid characters");
+
+                }
+
+
+                /*
+                    JavaScript automatically follows
+                    mathematical operator precedence.
+
+                    Example:
+
+                    2 + 3 * 4
+
+                    Multiplication happens first:
+
+                    3 * 4 = 12
+
+                    Then:
+
+                    2 + 12 = 14
+                */
+
+                let result = Function(
+                    '"use strict"; return (' + expression + ')'
+                )();
+
+
+                // Check for invalid result
+                if (!Number.isFinite(result)) {
+
+                    throw new Error("Invalid calculation");
+
+                }
+
+
+                // Display answer
+                screen.value = result;
+
+            }
+
+            catch (error) {
+
+                screen.value = "Error";
+
+            }
+
+        }
+
+    </script>
+
+</body>
+
+</html>
+```
